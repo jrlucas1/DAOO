@@ -2,10 +2,11 @@
 
 namespace Daoo\Aula03\model;
 
+use Daoo\Aula03\database\Connection;
 use Exception;
 use PDO;
 
-class ORM
+class Model
 {
     protected $conn;    //connection
 
@@ -16,37 +17,42 @@ class ORM
     protected $updated; //set columnNames=:columnNames
     protected $values;  //array values
     protected $filters; //like
+    private $delimiter; //Delmitadores de campo
     protected const FETCH = PDO::FETCH_ASSOC;
 
     public function __construct()
     {
-        $this->conn = Connection::getConnection();
+        try{
+            $this->conn = Connection::getConnection();
         $this->resetMappers();
+        $this->delimiter = '`';
+        if(Connection::getDrive()=='pgsql')
+            $this->delimiter = "\"";
+        }catch(Exception $error){
+            error_log("EXCEPTION MODEL:");
+            throw $error;
+        }
     }
 
     private function resetMappers(){
-        $this->filters = '1';
+        $this->filters = '';
         $this->columns = '';
         $this->params = '';
         $this->updated = '';
         $this->values = [];
     }
 
-    protected function mapColumns(iDAO $daoInterface)
+    protected function mapColumns(iDAO $daoInterface):void
     {
         if(count($this->values))
             $this->resetMappers();
 
         if (isset($daoInterface)) {
-            foreach ($daoInterface->getColumns() as $key => $value) {
+            foreach ($daoInterface->getColumns() as $key => $value) { //key=columnNames
                 $this->params .= " :$key,";
                 $this->columns .= " $key,";
                 $this->values[":$key"] = is_bool($value) ? (int)$value : $value;
-    
-                if(Connection::getDrive()=='mysql')
-                    $this->updated .= " `$key` = :$key,"; //MYSQL
-                else
-                    $this->updated .= " \"$key\" = :$key,";//POSTGRE
+                $this->updated .= $this->delimite($key)." = :$key,";//POSTGRE
             }
             $this->params = substr($this->params, 0, strlen($this->params) - 1);
             $this->columns = substr($this->columns, 0, strlen($this->columns) - 1);
@@ -54,12 +60,35 @@ class ORM
         }
     }
 
+    // protected function setFilters($arrayFilter)
+    // {
+    //     $this->filters = '1';
+    //     $this->values = [];
+    //     foreach ($arrayFilter as $key => $value) {
+    //         $this->filters .= " AND `$key` like :$key";
+    //         $this->values[":$key"] = "%$value%";
+    //     }
+    // }
+
     protected function setFilters($arrayFilter)
-    {
-        $this->filters='1';
-        $this->values=[];
+    {       
+        $this->filters = '';
+        $this->values = [];
+
+        $firstKey  = array_key_first($arrayFilter);
+        $firstValue = array_shift($arrayFilter);
+        
+        $compareOperator = 'like';
+        if(Connection::getDrive()=='pgsql')
+            $compareOperator = 'ilike';
+
+        $this->filters .= $this->delimite($firstKey).
+        " $compareOperator :$firstKey";//`key` like :key
+        $this->values[":$firstKey"] = "%$firstValue%";
+    
         foreach ($arrayFilter as $key => $value) {
-            $this->filters .= " AND `$key` like :$key";
+            $this->filters .= " AND ".
+                      $this->delimite($key)." $compareOperator  :$key";
             $this->values[":$key"] = "%$value%";
         }
     }
@@ -84,18 +113,18 @@ class ORM
         }
     }
 
-    protected function selectById($id)
+    protected function selectById(int $id,array $columns = [])
     {
+        //selecionar as colunas
         $sql = "SELECT * FROM $this->table WHERE $this->primary = :id";
         $prepStmt = $this->conn->prepare($sql);
         $prepStmt->bindValue(':id', $id);
 
-        if ($prepStmt->execute()) {
-            $this->dumpQuery($prepStmt);
-            return $prepStmt->fetchAll(self::FETCH);
-        }else{
+        if (!$prepStmt->execute())
             throw new Exception("Erro no select!");
-        }
+        
+        $this->dumpQuery($prepStmt);
+        return $prepStmt->fetch(self::FETCH);
     }
 
     protected function executeTransaction($sqlCommands, $parameters, $useLastId = false)
@@ -103,6 +132,9 @@ class ORM
         try {
             $this->conn->beginTransaction();
             //implementar   
+
+            //sucesso
+            // $this->conn->commit();
         } catch (\PDOException $error) {
             var_dump([$error->getMessage(), $error->getTraceAsString()]);
             $this->conn->rollBack();
@@ -120,10 +152,16 @@ class ORM
     }
 
     protected function lastId(){
-        if(Connection::getDrive()=='psql'){
+        if(Connection::getDrive()=='pgsql'){
             $sequenceName = $this->table."_".$this->primary."_seq";
             return $this->conn->lastInsertId($sequenceName);
         }
-            return $this->conn->lastInsertId();
+        return $this->conn->lastInsertId();
+    }
+
+    private function delimite($field){
+        return $this->delimiter.$field.$this->delimiter;
+        //mysql = `field`
+        //pgsql = "field"
     }
 }
