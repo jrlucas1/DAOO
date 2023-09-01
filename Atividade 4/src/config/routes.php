@@ -1,13 +1,13 @@
 <?php
 
-use Daoo\Aula03\controller\api\Produto;
-use Daoo\Aula03\controller\web\Produto as WebProduto;
+use Daoo\Aula03\controller\api\Atividade;
+use Daoo\Aula03\controller\api\Propriedade;
+use Daoo\Aula03\controller\api\Animal;
 
 $routes = [
     'api' => [
-        'produtos' => Produto::class
-    ],
-    'web' => [
-        'produtos' => WebProduto::class
+        'atividade' => Atividade::class,
+        'propriedade' => Propriedade::class,
+        'animal' => Animal::class
     ]
 ];

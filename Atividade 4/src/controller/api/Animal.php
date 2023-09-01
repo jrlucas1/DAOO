@@ -2,18 +2,18 @@
 
 namespace Daoo\Aula03\controller\api;
 
-use Daoo\Aula03\model\Propriedade as PropriedadeModel;
+use Daoo\Aula03\model\Animal as AnimalModel;
 use Exception;
 
-class Propriedade extends Controller
+class Animal extends Controller
 {
 
-	private PropriedadeModel $model;
+	private AnimalModel $model;
 
 	public function __construct()
 	{
 		try{
-			$this->model = new PropriedadeModel();
+			$this->model = new AnimalModel();
 			$this->setHeader(200,'');
 		}catch(Exception $error){
 			$this->setHeader(500,"Error when connecting to the database");
@@ -28,11 +28,11 @@ class Propriedade extends Controller
 
 	public function show($id)
 	{
-		$propriedade = $this->model->read($id);
-		if ($propriedade) {
-			$response = ['propriedade' => $propriedade];
+		$atividade = $this->model->read($id);
+		if ($atividade) {
+			$response = ['atividade' => $atividade];
 		} else {
-			$response = ['Erro' => "Propriedade was not found."];
+			$response = ['Erro' => "Atividade was not found."];
 			header('HTTP/1.0 404 Not Found');
 		}
 		echo json_encode($response);
@@ -41,22 +41,22 @@ class Propriedade extends Controller
 	public function store()
 	{
 		try {
-			$this->validadePropriedadeRequest();
+			$this->validadeAtividadeRequest();
 
-			$this->model = new PropriedadeModel(
-				$_POST['nome'],
-				$_POST['desc'],
-				$_POST['latitude'],
-				$_POST['longitude']
+			$this->model = new AnimalModel(
+				$_POST['descricao'],
+				$_POST['valor'],
+				$_POST['started'],
+				$_POST['ended']
 			);
 			
 			if ($this->model->create()){
 				echo json_encode([
-					"success" => "Propriedade was created sucessfully",
+					"success" => "Atividade was created sucessfully",
 					"data" => $this->model->getColumns()
 				]);
 			}else {
-				$msg = 'Error when creating propriedade!';
+				$msg = 'Error when creating Atividade!';
 				$this->setHeader(500,$msg);
    		 		throw new \Exception($msg);
 			}
@@ -72,15 +72,15 @@ class Propriedade extends Controller
 	{
 		try {
 			if(!$this->validatePostRequest(['id']))
-				throw new Exception("Please inform propriedade's ID");
+				throw new Exception("Please inform atividade's ID");
 			
-			$this->validadePropriedadeRequest();
+			$this->validadeAtividadeRequest();
 
-			$this->model = new PropriedadeModel(
-				$_POST['nome'],
-				$_POST['desc'],
-				$_POST['latitude'],
-				$_POST['longitude']
+			$this->model = new AnimalModel(
+				$_POST['descricao'],
+				$_POST['valor'],
+				$_POST['started'],
+				$_POST['enteded']
 			);
 			$this->model->id = $_POST["id"];
 
@@ -88,10 +88,10 @@ class Propriedade extends Controller
 
 			if ($this->model->update())
 				echo json_encode([
-					"success" => "Propriedade was updated sucessfully",
+					"success" => "Atividade was updated sucessfully",
 					"data" => $this->model->getColumns()
 				]);
-			else throw new \Exception("Error when updating propriedade");
+			else throw new \Exception("Error when updating atividade");
 		} catch (\Exception $error) {
 			$this->setHeader(500,'Server internal error.');
 			echo json_encode([
@@ -109,10 +109,10 @@ class Propriedade extends Controller
 			}
 			$id = $_POST["id"];
 			if ($this->model->delete($id)) {
-				$response = ["message:" => "Propriedade id:$id was removed sucessfully!"];
+				$response = ["message:" => "Atividade id:$id was removed sucessfully!"];
 			} else {
 				$this->setHeader(500,'Internal Error.');
-				throw new Exception("Error when removing propriedade");
+				throw new Exception("Error when removing atividade");
 			}
 			echo json_encode($response);
 		} catch (\Exception $error) {
@@ -131,7 +131,7 @@ class Propriedade extends Controller
 		echo json_encode($reulsts);
 	}
 
-	private function validadePropriedadeRequest()
+	private function validadeAtividadeRequest()
 	{
 		$fields = [
 			'descricao',
