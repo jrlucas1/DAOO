@@ -28,11 +28,11 @@ class Animal extends Controller
 
 	public function show($id)
 	{
-		$atividade = $this->model->read($id);
-		if ($atividade) {
-			$response = ['atividade' => $atividade];
+		$animal = $this->model->read($id);
+		if ($animal) {
+			$response = ['animal' => $animal];
 		} else {
-			$response = ['Erro' => "Atividade was not found."];
+			$response = ['Erro' => "Animal was not found."];
 			header('HTTP/1.0 404 Not Found');
 		}
 		echo json_encode($response);
@@ -41,22 +41,22 @@ class Animal extends Controller
 	public function store()
 	{
 		try {
-			$this->validadeAtividadeRequest();
+			$this->validateAnimalRequest();
 
 			$this->model = new AnimalModel(
-				$_POST['descricao'],
-				$_POST['valor'],
-				$_POST['started'],
-				$_POST['ended']
+				$_POST['nome'],
+				$_POST['sexo'],
+				$_POST['idade'],
+				$_POST['peso']
 			);
 			
 			if ($this->model->create()){
 				echo json_encode([
-					"success" => "Atividade was created sucessfully",
+					"success" => "Animal was created sucessfully",
 					"data" => $this->model->getColumns()
 				]);
 			}else {
-				$msg = 'Error when creating Atividade!';
+				$msg = 'Error when creating animal!';
 				$this->setHeader(500,$msg);
    		 		throw new \Exception($msg);
 			}
@@ -72,15 +72,15 @@ class Animal extends Controller
 	{
 		try {
 			if(!$this->validatePostRequest(['id']))
-				throw new Exception("Please inform atividade's ID");
+				throw new Exception("Please inform animal's ID");
 			
-			$this->validadeAtividadeRequest();
+			$this->validateAnimalRequest();
 
 			$this->model = new AnimalModel(
-				$_POST['descricao'],
-				$_POST['valor'],
-				$_POST['started'],
-				$_POST['enteded']
+				$_POST['nome'],
+				$_POST['sexo'],
+				$_POST['idade'],
+				$_POST['Peso']
 			);
 			$this->model->id = $_POST["id"];
 
@@ -88,10 +88,10 @@ class Animal extends Controller
 
 			if ($this->model->update())
 				echo json_encode([
-					"success" => "Atividade was updated sucessfully",
+					"success" => "animal was updated sucessfully",
 					"data" => $this->model->getColumns()
 				]);
-			else throw new \Exception("Error when updating atividade");
+			else throw new \Exception("Error when updating animal");
 		} catch (\Exception $error) {
 			$this->setHeader(500,'Server internal error.');
 			echo json_encode([
@@ -109,10 +109,10 @@ class Animal extends Controller
 			}
 			$id = $_POST["id"];
 			if ($this->model->delete($id)) {
-				$response = ["message:" => "Atividade id:$id was removed sucessfully!"];
+				$response = ["message:" => "Animal id:$id was removed sucessfully!"];
 			} else {
 				$this->setHeader(500,'Internal Error.');
-				throw new Exception("Error when removing atividade");
+				throw new Exception("Error when removing animal");
 			}
 			echo json_encode($response);
 		} catch (\Exception $error) {
@@ -131,13 +131,13 @@ class Animal extends Controller
 		echo json_encode($reulsts);
 	}
 
-	private function validadeAtividadeRequest()
+	private function validateAnimalRequest()
 	{
 		$fields = [
-			'descricao',
-			'valor',
-			'started',
-			'ended'
+			'nome',
+			'sexo',
+			'idade',
+			'peso'
 		];
 		if (!$this->validatePostRequest($fields))
 			throw new \Exception('Error: missing required fields.');

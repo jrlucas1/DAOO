@@ -22,8 +22,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Animais read
 Route::get('/animais', [AnimaisController::class, 'index']);
 Route::get('/animais/{id}', [AnimaisController::class, 'single'])->name('singleAnm');
+
+// Animais create
+Route::get('/animais', [AnimaisController::class, 'create']);
+Route::get('/animais', [AnimaisController::class, 'store']);
+
 
 Route::get('/users', [UsersController::class, 'index']);
 Route::get('/users/{id}', [UsersController::class, 'single'])->name('singleUser');
