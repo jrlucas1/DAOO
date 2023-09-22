@@ -24,12 +24,20 @@ Route::get('/', function () {
 
 // Animais read
 Route::get('/animais', [AnimaisController::class, 'index']);
-Route::get('/animais/{id}', [AnimaisController::class, 'single'])->name('singleAnm');
+Route::get('/animal/{id}', [AnimaisController::class, 'single'])->name('singleAnm');
 
 // Animais create
-Route::get('/animais', [AnimaisController::class, 'create']);
-Route::get('/animais', [AnimaisController::class, 'store']);
+Route::get('/animal', [AnimaisController::class, 'create'])->name('create');
+Route::post('/animal', [AnimaisController::class, 'store'])->name('store');
 
+//Animais update
+Route::get('/animais/{id}/edit', [AnimaisController::class, 'edit'])->name('edit');
+Route::post('/animais/{id}/update', [AnimaisController::class, 'update'])->name('animais.update');
+
+//Animais delete
+
+Route::get('/animais/{id}/delete', [AnimaisController::class, 'delete'])->name('delete');
+Route::post('/animais/{id}/remove', [AnimaisController::class, 'remove'])->name('animais.remove');
 
 Route::get('/users', [UsersController::class, 'index']);
 Route::get('/users/{id}', [UsersController::class, 'single'])->name('singleUser');
