@@ -16,6 +16,10 @@ return new class extends Migration
             $table->string('desc');
             $table->float('valor');
             $table->string('status');
+            $table->foreignId('produtos_id')
+                    ->references('id')
+                    ->on('produtos')
+                    ->onCascadeDelete();
             $table->timestamps();
         });
     }

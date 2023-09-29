@@ -22,16 +22,19 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::get('produtos', [ProdutoController::class, 'index']);
+Route::get('produto/{id}', [ProdutoController::class, 'single'])->name('singleProd');
 // Animais read
 Route::get('/animais', [AnimaisController::class, 'index']);
 Route::get('/animal/{id}', [AnimaisController::class, 'single'])->name('singleAnm');
 
 // Animais create
-Route::get('/animal', [AnimaisController::class, 'create'])->name('create');
+Route::get('/animal', [AnimaisController::class, 'create'])->name('animais.create');
 Route::post('/animal', [AnimaisController::class, 'store'])->name('store');
 
 //Animais update
-Route::get('/animais/{id}/edit', [AnimaisController::class, 'edit'])->name('edit');
+Route::get('/animais/{id}/edit', [AnimaisController::class, 'edit'])->name('animais.edit');
 Route::post('/animais/{id}/update', [AnimaisController::class, 'update'])->name('animais.update');
 
 //Animais delete
@@ -44,14 +47,14 @@ Route::get('/users/{id}', [UsersController::class, 'single'])->name('singleUser'
 
 
 //Atividades Create
-Route::get('/atividade', [AtividadesController::class, 'create']);
-Route::post('/atividade', [AtividadesController::class, 'store']);
+Route::get('/atividade', [AtividadesController::class, 'create'])->name('atividade.create');
+Route::post('/atividade', [AtividadesController::class, 'store'])->name('store');
 //Atividades Update
-Route::get('/atividade/{id}/edit', [ProdutoController::class, 'edit'])->name('edit');
-Route::post('/atividade/{id}/update', [ProdutoController::class, 'update'])->name('update');
+Route::get('/atividade/{id}/edit', [AtividadesController::class, 'edit'])->name('edit');
+Route::post('/atividade/{id}/update', [AtividadesController::class, 'update'])->name('atividade.update');
 //Atividades Delete
-Route::get('/atividade/{id}/delete', [Atividades::class, 'delete'])->name('delete');
-Route::post('/atividade/{id}/remove', [Atividades::class, 'remove'])->name('atividades.remove');
+Route::get('/atividade/{id}/delete', [AtividadesController::class, 'delete'])->name('delete');
+Route::post('/atividade/{id}/remove', [AtividadesController::class, 'remove'])->name('atividades.remove');
 
 //Atividades Read
 Route::get('/atividades', [AtividadesController::class, 'index']);

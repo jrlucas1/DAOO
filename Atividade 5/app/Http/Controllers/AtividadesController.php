@@ -47,14 +47,14 @@ class AtividadesController extends Controller
         $updatedAtividade = $request->all();
 
         if(!Atividades::find($id)->update($updatedAtividade))
-            dd("Erro ao atualizar o produto de id $id !");
+            dd("Erro ao atualizar a atividade de id $id !");
         return redirect('/atividades');
     }
 
     public function edit($id){
 
         $data = ['atividade'=>Atividades::find($id)];
-        return view('produto_edit', $data);
+        return view('atividade_edit', $data);
 
     }
 
@@ -69,7 +69,7 @@ class AtividadesController extends Controller
 
         if($request->confirmar==="Deletar")
             if(!Atividades::destroy($id))
-            dd("Erro ao deletar o produto $id !");
+            dd("Erro ao deletar a atividade $id !");
         return redirect('/atividades/');
     }
 }

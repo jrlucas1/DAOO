@@ -9,4 +9,9 @@ class Atividades extends Model
 {
     use HasFactory;
     protected $fillable = ['desc', 'valor', 'status'];
+
+    public function produtos()
+    {
+        return $this->hasMany(Produtos::class);
+    }
 }
