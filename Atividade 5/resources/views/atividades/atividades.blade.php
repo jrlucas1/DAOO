@@ -31,7 +31,7 @@
                     <td class="border px-4 py-2">{{$atividade->status}}</td>
                     <td class="border px-4 py-2">
                         <a href="{{route('edit', $atividade->id)}}" title="Editar">&#9998;</a>
-                        <a href="{{route('delete', $atividade->id)}}" title="Deletar">&#128465;</a>
+                        <a href="{{route('atividades.delete', $atividade->id)}}" title="Deletar">&#128465;</a>
                     </td>
                 </tr>
                 @endforeach

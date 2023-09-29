@@ -22,9 +22,23 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
+//Produtos read
 Route::get('produtos', [ProdutoController::class, 'index']);
 Route::get('produto/{id}', [ProdutoController::class, 'single'])->name('singleProd');
+
+//Produtos create
+Route::get('produto', [ProdutoController::class, 'create'])->name('produtos.create');
+Route::post('produto', [ProdutoController::class, 'store'])->name('produtos.store');
+
+//Produtos update
+Route::get('produtos/{id}/edit', [ProdutoController::class, 'edit'])->name('produtos.edit');
+Route::post('produtos/{id}/update', [ProdutoController::class, 'update'])->name('produtos.update');
+
+//Produtos delete
+Route::get('produtos/{id}/delete', [ProdutoController::class, 'delete'])->name('produtos.delete');
+Route::post('produtos/{id}/remove', [ProdutoController::class, 'remove'])->name('produtos.remove');
+
+
 // Animais read
 Route::get('/animais', [AnimaisController::class, 'index']);
 Route::get('/animal/{id}', [AnimaisController::class, 'single'])->name('singleAnm');
@@ -39,7 +53,7 @@ Route::post('/animais/{id}/update', [AnimaisController::class, 'update'])->name(
 
 //Animais delete
 
-Route::get('/animais/{id}/delete', [AnimaisController::class, 'delete'])->name('delete');
+Route::get('/animais/{id}/delete', [AnimaisController::class, 'delete'])->name('animais.delete');
 Route::post('/animais/{id}/remove', [AnimaisController::class, 'remove'])->name('animais.remove');
 
 Route::get('/users', [UsersController::class, 'index']);
@@ -53,7 +67,7 @@ Route::post('/atividade', [AtividadesController::class, 'store'])->name('store')
 Route::get('/atividade/{id}/edit', [AtividadesController::class, 'edit'])->name('edit');
 Route::post('/atividade/{id}/update', [AtividadesController::class, 'update'])->name('atividade.update');
 //Atividades Delete
-Route::get('/atividade/{id}/delete', [AtividadesController::class, 'delete'])->name('delete');
+Route::get('/atividade/{id}/delete', [AtividadesController::class, 'delete'])->name('atividades.delete');
 Route::post('/atividade/{id}/remove', [AtividadesController::class, 'remove'])->name('atividades.remove');
 
 //Atividades Read

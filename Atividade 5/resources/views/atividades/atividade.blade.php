@@ -8,7 +8,7 @@
 </head>
 <body>
     <h1>Users</h1>
-    @if ($atividade->count()>0)
+    @if ($atividade)
     <table>
         <thead>
             <tr>

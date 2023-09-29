@@ -20,11 +20,11 @@ class ProdutoController extends Controller
 
     public function index()
     {
-        return view('produtos',['produtos'=>$this->produto->all()]);
+        return view('/produtos/produtos',['produtos'=>$this->produto->all()]);
     }
 
     public function single($id){
-        return view('produto', ['produto'=>$this->produto->find($id)]);
+        return view('/produtos/produto', ['produto'=>$this->produto->find($id)]);
     }
 
    public function store (Request $request){
@@ -39,13 +39,13 @@ class ProdutoController extends Controller
 
    public function create (){
 
-       return view('produto_create');
+       return view('/produtos/produto_create');
 
    }
 
    public function update(Request $request, $id){
        $updatedProduto = $request->all();
-
+        
        if(!Produto::find($id)->update($updatedProduto))
            dd("Erro ao atualizar o produto de id $id !");
        return redirect('/produtos');
@@ -54,14 +54,14 @@ class ProdutoController extends Controller
    public function edit($id){
 
        $data = ['produto'=>Produto::find($id)];
-       return view('produto_edit', $data);
+       return view('/produtos/produto_edit', $data);
 
    }
 
    public function delete($id){
 
-       return view('produto.remove', [
-           'produto' -> Produto::find($id)
+       return view('/produtos/produto_remove', [
+           'produto' => Produto::find($id)
        ]);
    }
 

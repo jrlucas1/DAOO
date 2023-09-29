@@ -19,16 +19,16 @@ class AnimaisController extends Controller
 
     public function index()
     {
-        return view('animais',['animais'=>$this->animal->all()]);
+        return view('/animais/animais',['animais'=>$this->animal->all()]);
     }
 
     public function single($id){
-        return view('animal', ['animal'=>$this->animal->find($id)]);
+        return view('/animais/animal', ['animal'=>$this->animal->find($id)]);
     }
     
     public function create (){
 
-        return view('animal_create');
+        return view('/animais/animal_create');
 
     }
     public function store (Request $request){
@@ -54,14 +54,14 @@ class AnimaisController extends Controller
     public function edit($id){
 
         $data = ['animal'=>Animais::find($id)];
-        return view('animal_edit', $data);
+        return view('/animais/animal_edit', $data);
 
     }
 
     public function delete($id){
 
-        return view('animais.remove', [
-            'animal' -> Animais::find($id)
+        return view('/animais/animais_remove', [
+            'animal' => Animais::find($id)
         ]);
     }
 

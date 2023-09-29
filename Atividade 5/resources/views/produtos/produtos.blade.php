@@ -20,6 +20,7 @@
                     <th class="px-4 py-2">Descricao</th>
                     <th class="px-4 py-2">Preco</th>
                     <th class="px-4 py-2">Quantidade</th>
+                    <th class="px-4 py-2">Ações</th>
                 </tr>
             </thead>
             <tbody>
@@ -30,6 +31,10 @@
                     <td class="border px-4 py-2">{{$produto->desc}}</td>
                     <td class="border px-4 py-2">{{$produto->preco}}</td>
                     <td class="border px-4 py-2">{{$produto->quantidade}}</td>
+                    <td class="border px-4 py-2">
+                        <a href="{{route('produtos.edit', $produto->id)}}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Editar</a>
+                       <a href="{{route('produtos.delete', $produto->id)}}" class="inline-block"> Delete </a>
+                    </td>
                 </tr>
                 @endforeach
             </tbody>
@@ -37,6 +42,10 @@
         @else
         <p class="text-lg font-bold">Produtos não encontrados! </p>
         @endif
+        <div class="flex justify-end mb-4">
+                <a href="{{ route('produtos.create') }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">Novo Produto</a>
+            </div>
+        </table>
     </div>
 </body>
 </html>
