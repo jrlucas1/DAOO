@@ -21,6 +21,7 @@ class ProdutoFactory extends Factory
                 "descricao" => fake()->sentence(),
                 "preco" => fake()->randomFloat(2, 0, 8),
                 "quantidade" => fake()->numberBetween(1, 15),
+                "atividades_id" => fake()->numberBetween(1, 15)
         ];
     }
 }

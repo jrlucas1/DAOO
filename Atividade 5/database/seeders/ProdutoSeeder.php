@@ -4,14 +4,14 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
-class AtividadesSeeder extends Seeder
+use App\Models\Produto;
+class ProdutoSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        \App\Models\Atividades::factory(10)->create();
+        Produto::factory(10)->create();
     }
 }

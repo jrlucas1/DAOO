@@ -17,14 +17,9 @@ class DatabaseSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
 
-        \App\Models\Atividades::factory(10)->create();
-
-        $seedAtividade = new AtividadesSeeder();
-
-        $seedAtividade->run();
-
-        (new AtividadesSeeder)->run();
-
+        AtividadesSeeder::class;
+        AnimaisSeeder::class;
+        ProdutoSeeder::class;
         
     }
 }

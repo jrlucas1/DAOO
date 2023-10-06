@@ -5,13 +5,13 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class AtividadesSeeder extends Seeder
+class AnimaisSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        \App\Models\Atividades::factory(10)->create();
+        \App\Models\Animais::factory(10)->create();
     }
 }
