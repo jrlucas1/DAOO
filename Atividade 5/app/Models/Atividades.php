@@ -12,6 +12,11 @@ class Atividades extends Model
 
     public function produtos()
     {
-        return $this->hasMany(Produtos::class);
+        return $this->hasMany(Produto::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

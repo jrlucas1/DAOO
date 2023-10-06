@@ -13,6 +13,6 @@ class Produto extends Model
 
     public function atividades()
     {
-        return $this->belongsTo(Atividades::class);
+        return $this->belongsToMany(Atividades::class);
     }
 }
