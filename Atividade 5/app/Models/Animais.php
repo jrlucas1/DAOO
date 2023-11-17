@@ -9,5 +9,9 @@ class Animais extends Model
 {
     use HasFactory;
     protected $fillable = ['nome', 'sexo', 'peso', 'idade'];
+
+    public function owner(){
+        return $this->belongsTo(User::class);
+    }
     
 }

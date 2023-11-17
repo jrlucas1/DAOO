@@ -6,44 +6,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Atividades</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss/dist/tailwind.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
-<body class="bg-gray-100">
-    <div class="container mx-auto py-8">
-        <h1 class="text-2xl font-bold mb-8">Insert new atividade</h1>
-        <form action="/atividade" method="POST">
+<body class="bg-gray-200">
+    <div class="container mx-auto py-12">
+        <h1 class="text-3xl font-bold mb-10 text-center">Insert new atividade</h1>
+        <form action="/atividade" method="POST" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+        <input type="hidden" name="user_id" value="1">
             @csrf
-            {{-- <input type="hidden" name="_token" value="{{csrf_token()}}"/> --}}
-            <div class="bg-white rounded-lg shadow-lg p-8">
-                <div class="mb-4">
-                    <label class="block text-gray-700 font-bold mb-2" for="desc">
-                        Descricao:
-                    </label>
-                    <textarea class="form-textarea mt-1 block w-full" name="desc" id="desc" cols="30" rows="10"></textarea>
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 font-bold mb-2" for="valor">
-                        Valor:
-                    </label>
-                    <input class="form-input mt-1 block w-full" type="number" name="valor" id="valor">
-                </div>
-                <div class="mb-4">
-                    <label class="block text-gray-700 font-bold mb-2" for="status">
-                        Status:
-                    </label>
-                    <input class="form-input mt-1 block w-full" type="text" name="status" id="status">
-                </div>
-                <div class="flex justify-center">
-                    <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" type="submit">
-                        Criar
-                    </button>
-                </div>
-                <div class="flex justify-center mt-4">
-                    <a href="/atividades" class="text-gray-600 hover:text-gray-800">
-                        &#9664;&nbsp;Voltar
-                    </a>
-                </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="desc">
+                    Descricao:
+                </label>
+                <textarea class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="desc" id="desc" cols="30" rows="10"></textarea>
+            </div>
+            <div class="mb-4">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="valor">
+                    Valor:
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="number" name="valor" id="valor">
+            </div>
+            <div class="mb-6">
+                <label class="block text-gray-700 text-sm font-bold mb-2" for="status">
+                    Status:
+                </label>
+                <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" name="status" id="status">
+            </div>
+            <div class="flex items-center justify-between">
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
+                    Criar
+                </button>
+                <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="/atividades">
+                    &#9664;&nbsp;Voltar
+                </a>
             </div>
         </form>
     </div>

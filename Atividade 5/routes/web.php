@@ -40,7 +40,7 @@ Route::post('produtos/{id}/remove', [ProdutoController::class, 'remove'])->name(
 
 
 // Animais read
-Route::get('/animais', [AnimaisController::class, 'index']);
+Route::get('/animais', [AnimaisController::class, 'index'])->name('animais.index');
 Route::get('/animal/{id}', [AnimaisController::class, 'single'])->name('singleAnm');
 
 // Animais create
@@ -56,7 +56,7 @@ Route::post('/animais/{id}/update', [AnimaisController::class, 'update'])->name(
 Route::get('/animais/{id}/delete', [AnimaisController::class, 'delete'])->name('animais.delete');
 Route::post('/animais/{id}/remove', [AnimaisController::class, 'remove'])->name('animais.remove');
 
-Route::get('/users', [UsersController::class, 'index']);
+Route::get('/users', [UsersController::class, 'index'])->name('users.index');
 Route::get('/users/{id}', [UsersController::class, 'single'])->name('singleUser');
 
 
@@ -71,8 +71,9 @@ Route::get('/atividade/{id}/delete', [AtividadesController::class, 'delete'])->n
 Route::post('/atividade/{id}/remove', [AtividadesController::class, 'remove'])->name('atividades.remove');
 
 //Atividades Read
-Route::get('/atividades', [AtividadesController::class, 'index']);
+Route::get('/atividades', [AtividadesController::class, 'index'])->name('atividades.index');
 Route::get('/atividades/{id}', [AtividadesController::class, 'single'])->name('singleAtv');
+Route::get('/atividades/search', [AtividadesController::class, 'search'])->name('atividades.search');
 
 
 

@@ -71,4 +71,11 @@ class AtividadesController extends Controller
             dd("Erro ao deletar a atividade $id !");
         return redirect('/atividades/atividades/');
     }
+
+    public function search(Request $request)
+    {
+        $search = $request->get('search');
+        $atividades = Atividades::where('desc', 'like', '%' . $search . '%')->get();
+        return view('atividades.index', compact('atividades'));
+    }
 }

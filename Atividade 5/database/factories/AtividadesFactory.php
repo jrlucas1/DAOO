@@ -17,7 +17,10 @@ class AtividadesFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+                "desc" => fake()->word(),
+                "valor" => fake()->randomFloat(2, 0, 8),
+                "status" => fake()->word(),
+                "user_id" => fake()->numberBetween(1, 15)
         ];
     }
 }

@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Atividades extends Model
 {
     use HasFactory;
-    protected $fillable = ['desc', 'valor', 'status'];
+    protected $fillable = ['desc', 'valor', 'status', 'user_id'];
 
     public function produtos()
     {

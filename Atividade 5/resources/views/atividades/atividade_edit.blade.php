@@ -14,12 +14,12 @@
         <h1 class="text-2xl font-bold mb-4">Update Atividade</h1>
         <form action="{{route('atividade.update',$atividade->id)}}" method="POST">
             @csrf
+            <input type="hidden" name="user_id" value="1">
             <table class="w-full">
                 <tr>
                     <td class="py-2">Descricao:</td>
                     <td><textarea name="desc" id="" cols="30" rows="10" class="w-full border rounded-lg p-2">{{$atividade->desc}}</textarea></td>
                 </tr>
-                <tr>
                     <td class="py-2">Preço:</td>
                     <td><input type="number" name="valor" step=".01" value="{{$atividade->valor}}" class="w-full border rounded-lg p-2"/></td>
                 </tr>

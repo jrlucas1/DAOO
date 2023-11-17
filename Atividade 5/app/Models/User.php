@@ -16,6 +16,14 @@ class User extends Authenticatable
     {
         return $this->hasMany(Atividades::class);
     }
+
+    public function animais(){
+        return $this->hasMany(Animais::class);
+    }
+    public function produtos()
+    {
+        return $this->hasManyThrough(Produto::class, Atividades::class);
+    }
     /**
      * The attributes that are mass assignable.
      *
