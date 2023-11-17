@@ -84,4 +84,32 @@ class AtividadesController extends Controller
        }
     }
 
+    public function getAtividadesFromUser($id)
+    {
+        try{
+            $atividades = Atividades::users()->findOrFail($id);
+            return response()->json($atividades, 200);
+        } catch(\Exception $e){
+            return response()->json([
+                'message' => 'Erro ao buscar atividades!',
+                'error' => $e->getMessage()
+            ], 404);
+        }
+    }
+
+    public function getAtivdadesWithProduto($id)
+    {
+        try{
+            $atividades = Atividades::produtos()->findOrFail($id);
+            return response()->json($atividades, 200);
+        } catch(\Exception $e){
+            return response()->json([
+                'message' => 'Erro ao buscar atividades!',
+                'error' => $e->getMessage()
+            ], 404);
+        }
+    }
+
+
+
 }
