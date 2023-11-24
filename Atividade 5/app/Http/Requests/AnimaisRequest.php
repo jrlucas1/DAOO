@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use \Illuminate\Contracts\Validation\Validator;
 
 class AnimaisRequest extends FormRequest
 {
@@ -34,11 +35,30 @@ class AnimaisRequest extends FormRequest
 
     public function message()
     {
+        if($this->input('idade') < 0){
+            return [
+                'idade.min' => 'A idade deve ser maior que 0',
+            ];
+        }
+        if($this->input('peso') < 0){
+            return [
+                'peso.min' => 'O peso deve ser maior que 0',
+            ];
+        }
+
         return [
             'nome.required' => 'O campo nome é obrigatório',
             'sexo.required' => 'O campo sexo é obrigatório',
             'peso.required' => 'O campo peso é obrigatório',
             'idade.required' => 'O campo idade é obrigatório',
         ];
+    }
+    
+    protected function failedValidation(Validator $validator){
+        $response = response()->json([
+            'message' => 'Erro de validação',
+            'errors' => $validator->errors()
+        ], 422);
+        throw new \Illuminate\Validation\ValidationException($validator, $response);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use \Illuminate\Contracts\Validation\Validator;
 
 class ProdutoRequest extends FormRequest
 {
@@ -45,5 +46,13 @@ class ProdutoRequest extends FormRequest
             'preco.required' => 'O campo preço é obrigatório',
             'quantidade.required' => 'O campo quantidade é obrigatório',
         ];
+    }
+
+    protected function failedValidation(Validator $validator){
+        $response = response()->json([
+            'message' => 'Erro de validação',
+            'errors' => $validator->errors()
+        ], 422);
+        throw new \Illuminate\Validation\ValidationException($validator, $response);
     }
 }

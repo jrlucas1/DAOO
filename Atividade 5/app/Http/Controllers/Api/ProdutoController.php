@@ -11,7 +11,15 @@ class ProdutoController extends Controller
 {
     public function index(){
         try{
-            return response()->json(Produto::paginate(10), 200);
+            $produtos = Produto::paginate(10);
+            if($produtos->count() > 0){
+                return response()->json($produtos, 200);
+            } else {
+                return response()->json([
+                    'message' => 'Não há produtos cadastrados!',
+                    'error' => '404'
+                ], 404);
+            }
         } catch(\Exception $e){
             return response()->json([
                 'message' => 'Erro ao buscar produtos!',
@@ -22,7 +30,15 @@ class ProdutoController extends Controller
 
     public function show ($id){
         try{
-            return response()->json(Produto::findOrFail($id), 200);
+            $produto = Produto::find($id);
+            if($produto){
+                return response()->json($produto, 200);
+            } else {
+                return response()->json([
+                    'message' => 'Produto não encontrado!',
+                    'error' => '404'
+                ], 404);
+            }
         } catch(\Exception $e){
             return response()->json([
                 'message' => 'Erro ao buscar produto!',

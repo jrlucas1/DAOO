@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Models\Atividades;
 use App\Http\Requests\AtividadesRequest;
+use Illuminate\Http\Request;
+
 
 
 class AtividadesController extends Controller
@@ -87,7 +89,9 @@ class AtividadesController extends Controller
     public function getAtividadesFromUser($id)
     {
         try{
-            $atividades = Atividades::users()->findOrFail($id);
+            $atividades = Atividades::whereHas('user', function($query) use ($id){
+                $query->where('id', $id);
+            })->get();
             return response()->json($atividades, 200);
         } catch(\Exception $e){
             return response()->json([
@@ -100,7 +104,9 @@ class AtividadesController extends Controller
     public function getAtivdadesWithProduto($id)
     {
         try{
-            $atividades = Atividades::produtos()->findOrFail($id);
+            $atividades = Atividades::whereHas('produto', function($query) use ($id){
+                $query->where('id', $id);
+            })->get();
             return response()->json($atividades, 200);
         } catch(\Exception $e){
             return response()->json([
@@ -110,6 +116,18 @@ class AtividadesController extends Controller
         }
     }
 
-
+    public function getAtvWithProdAndUser (Request $request){
+        try{
+            $prodid = $request->query->get('prodid');
+            $userid = $request->query->get('userid');
+            $atividades = Atividades::where('produto_id', $prodid)->where('user_id', $userid)->get();
+            return response()->json($atividades, 200);
+        } catch(\Exception $e){
+            return response()->json([
+                'message' => 'Erro ao buscar atividade.',
+                'error' => $e->getMessage()
+            ], 404);
+        }
+    }
 
 }

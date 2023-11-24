@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use \Illuminate\Contracts\Validation\Validator;
 
 class AtividadesRequest extends FormRequest
 {
@@ -35,5 +36,13 @@ class AtividadesRequest extends FormRequest
             'valor.required' => 'O campo valor é obrigatório',
             'status.required' => 'O campo status é obrigatório',
         ];
+    }
+
+    protected function failedValidation(Validator $validator){
+        $response = response()->json([
+            'message' => 'Erro de validação',
+            'errors' => $validator->errors()
+        ], 422);
+        throw new \Illuminate\Validation\ValidationException($validator, $response);
     }
 }

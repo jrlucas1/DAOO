@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class AnimaisController extends Controller
 {
     /**
-     * @var Animal
+     * @var Animais
      */
 
     private $animal;
