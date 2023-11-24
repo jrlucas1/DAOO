@@ -15,6 +15,7 @@ class UserController extends Controller
     public function login(LoginRequest $request){
         try{
             $credentials = request(['email', 'password']);
+
        
             if(!Auth::attempt($credentials)){
                 return response()->json([
@@ -23,10 +24,12 @@ class UserController extends Controller
                 ], 401);
             }
             $user = User::where('email', $request->email)->first();
-            $tokenResult = $user->createToken('authToken', [], now()->addDay())->plainTextToken;
+            $role = $user->role;
+            $tokenResult = $user->createToken('authToken', [$role], now()->addDay())->plainTextToken;
             return response()->json([
                 'access_token' => $tokenResult,
-                'token_type' => 'Bearer'
+                'token_type' => 'Bearer',
+                'role' => $role,
             ]);
         } catch(\Exception $e){
             return response()->json([

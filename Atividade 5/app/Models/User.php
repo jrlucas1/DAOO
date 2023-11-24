@@ -12,6 +12,12 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    public function hasRole($role)
+    {
+        return $this->role === $role;
+    }
+    
+
     public function atividades()
     {
         return $this->hasMany(Atividades::class);

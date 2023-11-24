@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Atividades;
 use App\Http\Requests\AtividadesRequest;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 
 
@@ -86,11 +87,18 @@ class AtividadesController extends Controller
        }
     }
 
-    public function getAtividadesFromUser($id)
+    public function getAtividadesFromUser(Atividades $atividade, $id)
     {
         try{
-            $atividades = Atividades::find()
-            return response()->json($atividades, 200);
+            $user = User::findOrFail($id);
+            if($user->atividades->isEmpty()){
+                return response()->json([
+                    'message' => 'Nenhuma atividade encontrada para esse usuário!'
+                ], 404);
+            }else{
+                $atividades = $user->atividades;
+                return response()->json($atividades, 200);
+            }
         } catch(\Exception $e){
             return response()->json([
                 'message' => 'Erro ao buscar atividades!',
