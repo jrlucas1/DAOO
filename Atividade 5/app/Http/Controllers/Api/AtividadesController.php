@@ -89,9 +89,7 @@ class AtividadesController extends Controller
     public function getAtividadesFromUser($id)
     {
         try{
-            $atividades = Atividades::whereHas('user', function($query) use ($id){
-                $query->where('id', $id);
-            })->get();
+            $atividades = Atividades::find()
             return response()->json($atividades, 200);
         } catch(\Exception $e){
             return response()->json([

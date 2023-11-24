@@ -20,7 +20,7 @@ class AtividadesFactory extends Factory
                 "desc" => fake()->word(),
                 "valor" => fake()->randomFloat(2, 0, 8),
                 "status" => fake()->word(),
-                "user_id" => fake()->numberBetween(1, 15)
+                "user_id" => fake()->numberBetween(1, 3)
         ];
     }
 }

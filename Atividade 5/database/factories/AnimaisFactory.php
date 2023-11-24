@@ -17,10 +17,10 @@ class AnimaisFactory extends Factory
     public function definition(): array
     {
         return [
-                "nome" => fake()->word(),
+                "nome" => fake()->name(),
                 "sexo" => fake()->randomElement(["M", "F"]),
-                "peso" => fake()->randomFloat(3, 0, 8),
-                "idade" => fake()->numberBetween(1, 25),
+                "peso" => fake()->randomFloat(200, 0, 300),
+                "idade" => fake()->numberBetween(12, 25),
         ];
     }
 }
