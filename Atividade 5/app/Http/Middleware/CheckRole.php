@@ -13,11 +13,13 @@ class CheckRole
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
-    {
-        if ($request->user()->tokenCan('admin')) {
+    public function handle(Request $request, Closure $next, ...$roles): Response
+        {
+            if (!$request->user() || !in_array($request->user()->role, $roles)) {
+                // You can throw an exception here or return a response
+                abort(403, 'Unauthorized');
+            }
+    
             return $next($request);
         }
-        return response('Unauthorized', 401);
-    }
 }

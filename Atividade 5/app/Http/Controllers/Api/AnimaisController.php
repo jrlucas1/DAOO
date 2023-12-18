@@ -36,6 +36,8 @@ class AnimaisController extends Controller
     public function store(AnimaisRequest $request)
     {
         try{
+            $this->authorize('admin');
+
             $newAnimal = $request->all();
             $animal = Animais::create($newAnimal);
             return response()->json([
@@ -53,6 +55,7 @@ class AnimaisController extends Controller
     public function update (AnimaisRequest $request, $id)
     {
         try{
+            $this->authorize('admin');
             $data = $request->all();
             $animal = Animais::findOrFail($id);
             $animal->update($data);
@@ -71,6 +74,7 @@ class AnimaisController extends Controller
     public function delete($id)
     {
        try{
+            $this->authorize('admin');
             $animal = Animais::findOrFail($id);
             $animal->delete();
             return response()->json([

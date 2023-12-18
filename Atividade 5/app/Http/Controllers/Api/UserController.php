@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\LoginRequest;
+use Illuminate\Http\Request;
 
 use App\Models\User;
 
@@ -16,7 +17,6 @@ class UserController extends Controller
         try{
             $credentials = request(['email', 'password']);
 
-       
             if(!Auth::attempt($credentials)){
                 return response()->json([
                     'message' => 'Login inválido!',
@@ -29,7 +29,6 @@ class UserController extends Controller
             return response()->json([
                 'access_token' => $tokenResult,
                 'token_type' => 'Bearer',
-                'role' => $role,
             ]);
         } catch(\Exception $e){
             return response()->json([
@@ -59,9 +58,9 @@ class UserController extends Controller
         }
     }
 
-    public function logout (){
+    public function logout (Request $request){
         try{
-            auth()->user()->tokens()->delete();
+            $request->user()->currentAccessToken()->delete();
             return response()->json([
                 'message' => 'Logout realizado com sucesso!'
             ], 200);
